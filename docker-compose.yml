@@ -1,0 +1,22 @@
+services:
+  coolify:
+    image: ghcr.io/coollabsio/coolify:latest
+    container_name: coolify
+    restart: always
+    volumes:
+      - coolify-db:/data/coolify/database
+      - coolify-applications:/data/coolify/source
+    ports:
+      - "8000:8000"
+    env_file:
+      - .env
+    privileged: true
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/api/v1/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+
+volumes:
+  coolify-db:
+  coolify-applications:
